@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <title>Expense List</title>
+    <style>
+      .button-container {
+        display: flex;
+        justify-content: center; /* Center the button horizontally */
+        margin-top: 20px; /* Space above the button */
+      }
+      .centered {
+        text-align: center; /* Center text within this container */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="centered">Expense List</h1>
+      <!-- Centering the title -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Receipt</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for expense in expenses %}
+          <tr>
+            <td>{{ expense.title }}</td>
+            <td>{{ expense.amount }}</td>
+            <td>{{ expense.date }}</td>
+            <td>{{ expense.description }}</td>
+            <td>
+              {% if expense.receipt_url %}
+              <a href="{{ expense.receipt_url }}" target="_blank"
+                >View Receipt</a
+              >
+              {% endif %}
+            </td>
+            <td>
+              <a
+                href="{% url 'delete_expense' expense.id %}"
+                class="btn btn-danger btn-sm"
+                onclick="return confirm('Are you sure you want to delete this expense?');"
+                >Delete</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="button-container">
+        <a href="{% url 'add_expense' %}" class="btn btn-success"
+          >Add Expense</a
+        >
+      </div>
+    </div>
+  </body>
+</html>
